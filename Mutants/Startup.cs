@@ -32,6 +32,16 @@ namespace Mutants
         {
             services.AddControllers();
 
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Mutants Service API",
+                    Version = "v1",
+                    Description = "Code challenge - MELI",
+                });
+            });
+
             // AWS Services
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonDynamoDB>();
@@ -63,6 +73,9 @@ namespace Mutants
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Mutant Services"));
         }
     }
 }
